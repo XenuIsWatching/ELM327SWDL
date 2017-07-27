@@ -55,6 +55,7 @@ namespace ELM327SWDL
                 VBFFileGridView.Rows[row].Cells[2].Value = VBFFile.sw_part_type;
                 VBFFileGridView.Rows[row].Cells[3].Value = VBFFile.ecu_address;
                 VBFFileGridView.Rows[row].Cells[4].Value = VBFFile.frame_format;
+                log.Text = "Opening " + openVBFDialog.FileName + "\r\n";
                 VBFFileList.Insert(row, VBFFile);
             }
         }

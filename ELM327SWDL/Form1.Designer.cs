@@ -36,6 +36,9 @@
             this.openVBFDialog = new System.Windows.Forms.OpenFileDialog();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.UpButton = new System.Windows.Forms.Button();
+            this.DeleteButton = new System.Windows.Forms.Button();
+            this.DownButton = new System.Windows.Forms.Button();
             this.VBFFileGridView = new System.Windows.Forms.DataGridView();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sw_part_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,9 +46,7 @@
             this.ecu_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frame_format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.DownButton = new System.Windows.Forms.Button();
-            this.DeleteButton = new System.Windows.Forms.Button();
-            this.UpButton = new System.Windows.Forms.Button();
+            this.log = new System.Windows.Forms.RichTextBox();
             this.groupBox3.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -60,9 +61,9 @@
             this.groupBox3.Controls.Add(this.dvmgr);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(583, 11);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(280, 46);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
@@ -72,7 +73,7 @@
             // 
             this.robot_com.FormattingEnabled = true;
             this.robot_com.Location = new System.Drawing.Point(10, 16);
-            this.robot_com.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.robot_com.Margin = new System.Windows.Forms.Padding(2);
             this.robot_com.Name = "robot_com";
             this.robot_com.Size = new System.Drawing.Size(75, 21);
             this.robot_com.TabIndex = 5;
@@ -104,7 +105,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(472, 267);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 25);
             this.button1.TabIndex = 8;
@@ -122,10 +123,10 @@
             this.TabControl.Controls.Add(this.tabPage1);
             this.TabControl.Controls.Add(this.tabPage2);
             this.TabControl.Location = new System.Drawing.Point(8, 56);
-            this.TabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabControl.Margin = new System.Windows.Forms.Padding(2);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(855, 322);
+            this.TabControl.Size = new System.Drawing.Size(571, 322);
             this.TabControl.TabIndex = 9;
             // 
             // tabPage1
@@ -136,13 +137,43 @@
             this.tabPage1.Controls.Add(this.VBFFileGridView);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage1.Size = new System.Drawing.Size(847, 296);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Size = new System.Drawing.Size(563, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SWDL";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // UpButton
+            // 
+            this.UpButton.Location = new System.Drawing.Point(191, 267);
+            this.UpButton.Name = "UpButton";
+            this.UpButton.Size = new System.Drawing.Size(75, 23);
+            this.UpButton.TabIndex = 11;
+            this.UpButton.Text = "Up";
+            this.UpButton.UseVisualStyleBackColor = true;
+            this.UpButton.Click += new System.EventHandler(this.UpButton_Click);
+            // 
+            // DeleteButton
+            // 
+            this.DeleteButton.Location = new System.Drawing.Point(353, 267);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteButton.TabIndex = 10;
+            this.DeleteButton.Text = "Delete";
+            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
+            // DownButton
+            // 
+            this.DownButton.Location = new System.Drawing.Point(272, 267);
+            this.DownButton.Name = "DownButton";
+            this.DownButton.Size = new System.Drawing.Size(75, 23);
+            this.DownButton.TabIndex = 9;
+            this.DownButton.Text = "Down";
+            this.DownButton.UseVisualStyleBackColor = true;
+            this.DownButton.Click += new System.EventHandler(this.DownButton_Click);
             // 
             // VBFFileGridView
             // 
@@ -154,7 +185,7 @@
             this.ecu_address,
             this.frame_format});
             this.VBFFileGridView.Location = new System.Drawing.Point(4, 4);
-            this.VBFFileGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VBFFileGridView.Margin = new System.Windows.Forms.Padding(2);
             this.VBFFileGridView.Name = "VBFFileGridView";
             this.VBFFileGridView.RowTemplate.Height = 28;
             this.VBFFileGridView.Size = new System.Drawing.Size(547, 259);
@@ -194,52 +225,31 @@
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(847, 296);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Diag";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // DownButton
+            // log
             // 
-            this.DownButton.Location = new System.Drawing.Point(272, 267);
-            this.DownButton.Name = "DownButton";
-            this.DownButton.Size = new System.Drawing.Size(75, 23);
-            this.DownButton.TabIndex = 9;
-            this.DownButton.Text = "Down";
-            this.DownButton.UseVisualStyleBackColor = true;
-            this.DownButton.Click += new System.EventHandler(this.DownButton_Click);
-            // 
-            // DeleteButton
-            // 
-            this.DeleteButton.Location = new System.Drawing.Point(353, 267);
-            this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
-            this.DeleteButton.TabIndex = 10;
-            this.DeleteButton.Text = "Delete";
-            this.DeleteButton.UseVisualStyleBackColor = true;
-            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
-            // 
-            // UpButton
-            // 
-            this.UpButton.Location = new System.Drawing.Point(191, 267);
-            this.UpButton.Name = "UpButton";
-            this.UpButton.Size = new System.Drawing.Size(75, 23);
-            this.UpButton.TabIndex = 11;
-            this.UpButton.Text = "Up";
-            this.UpButton.UseVisualStyleBackColor = true;
-            this.UpButton.Click += new System.EventHandler(this.UpButton_Click);
+            this.log.Location = new System.Drawing.Point(580, 78);
+            this.log.Name = "log";
+            this.log.Size = new System.Drawing.Size(285, 296);
+            this.log.TabIndex = 13;
+            this.log.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 389);
+            this.Controls.Add(this.log);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.groupBox3);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
@@ -270,6 +280,7 @@
         private System.Windows.Forms.Button UpButton;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button DownButton;
+        private System.Windows.Forms.RichTextBox log;
     }
 }
 

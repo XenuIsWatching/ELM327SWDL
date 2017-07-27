@@ -25,7 +25,7 @@ namespace ELM327SWDL
         {
             public string start_address { get; set; }
             public string length { get; set; }
-            public List<int> data { get; set; }
+            public List<byte> data { get; set; }
         }
 
         public class VBF_File
@@ -41,7 +41,7 @@ namespace ELM327SWDL
             public string call { get; set; }
             public string omit { get; set; }
             public string data_format_identifier { get; set; }
-            public List<erase> erase_block { get; set; }
+            public List<erase> binary_block { get; set; }
         }
 
         public static VBF_File parseVBFFile(string FileName)
@@ -83,6 +83,30 @@ namespace ELM327SWDL
             if (VBFFile.sw_part_type == "SBL" || VBFFile.sw_part_type == "GBL")
             {
                 VBFFile.call = Regex.Match(vbfString, "call *= *(?<call>0[xX][0-9a-fA-F]+);").Groups["call"].Value;
+                VBFFile.binary_block = new List<erase>();
+                FileStream sr = File.OpenRead(FileName);
+                sr.Seek(header.Length, SeekOrigin.Begin);
+                erase block = new erase();
+                block.data = new List<byte>();
+                //sr.Seek(sr.Position + 4, SeekOrigin.Begin); //skip address
+                block.start_address = "0x";
+                for(int i = 0; i < 4; i++)
+                {
+                    block.start_address += Convert.ToByte(sr.ReadByte()).ToString("X2");
+                }
+                //sr.Seek(sr.Position + 4, SeekOrigin.Begin); //skip length
+                block.length = "0x";
+                for (int i = 0; i < 4; i++)
+                {
+                    block.length += Convert.ToByte(sr.ReadByte()).ToString("X2");
+                }
+                for (int j = 0; j < Convert.ToInt32(block.length, 16); j++)
+                {
+                    byte dataByte = Convert.ToByte(sr.ReadByte());
+                    block.data.Add(dataByte);
+                }
+                sr.Seek(sr.Position + 2, SeekOrigin.Begin); //skip checksum
+                VBFFile.binary_block.Add(block);
             }
             else if(VBFFile.sw_part_type == "TEST")
             {
@@ -95,7 +119,7 @@ namespace ELM327SWDL
                 //string erase_group = match.Groups["erase"].Value;
                 String erase_pattern = "{\\s*(?<start_address>0[xX][0-9a-fA-F]+),\\s*(?<length>0[xX][0-9a-fA-F]+)\\s*}";
                 MatchCollection erase_matches = Regex.Matches(erase_group, erase_pattern);
-                VBFFile.erase_block = new List<erase>();
+                VBFFile.binary_block = new List<erase>();
                 FileStream sr = File.OpenRead(FileName);
                 sr.Seek(header.Length, SeekOrigin.Begin);
                 for (int i = 0; i < erase_matches.Count; i++)
@@ -103,19 +127,17 @@ namespace ELM327SWDL
                     erase block = new erase();
                     block.start_address = erase_matches[i].Groups["start_address"].Value;
                     block.length = erase_matches[i].Groups["length"].Value;
-                    block.data = new List<int>();
+                    block.data = new List<byte>();
                     sr.Seek(sr.Position + 4, SeekOrigin.Begin); //skip address
                     sr.Seek(sr.Position + 4, SeekOrigin.Begin); //skip length
                     for (int j = 0; j < Convert.ToInt32(block.length, 16); j++)
                     {
-                        block.data.Add(sr.ReadByte());
+                        block.data.Add(Convert.ToByte(sr.ReadByte()));
                     }
                     sr.Seek(sr.Position + 2, SeekOrigin.Begin); //skip checksum
-                    VBFFile.erase_block.Add(block);
+                    VBFFile.binary_block.Add(block);
                 }
             }
-
-           
 
             return VBFFile;
         }
