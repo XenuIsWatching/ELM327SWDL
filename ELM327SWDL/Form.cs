@@ -14,11 +14,11 @@ using System.Text.RegularExpressions;
 
 namespace ELM327SWDL
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
-        List<SWDL.VBF_File> VBFFileList = new List<SWDL.VBF_File>();
+        List<VBF.VBF_File> VBFFileList = new List<VBF.VBF_File>();
 
-        public Form1()
+        public Form()
         {
             InitializeComponent();
         }
@@ -48,7 +48,7 @@ namespace ELM327SWDL
             // a .VBF file was selected, open it.  
             if (openVBFDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SWDL.VBF_File VBFFile = SWDL.parseVBFFile(openVBFDialog.FileName);
+                VBF.VBF_File VBFFile = VBF.parseVBFFile(openVBFDialog.FileName);
                 int row = VBFFileGridView.Rows.Add();
                 VBFFileGridView.Rows[row].Cells[0].Value = VBFFile.description;
                 VBFFileGridView.Rows[row].Cells[1].Value = VBFFile.sw_part_number;
@@ -70,9 +70,9 @@ namespace ELM327SWDL
 
         }
 
-        static void SwapVBF(IList<SWDL.VBF_File> list, int indexA, int indexB)
+        static void SwapVBF(IList<VBF.VBF_File> list, int indexA, int indexB)
         {
-            SWDL.VBF_File tmp = list[indexA];
+            VBF.VBF_File tmp = list[indexA];
             list[indexA] = list[indexB];
             list[indexB] = tmp;
         }

@@ -1,0 +1,3 @@
+[submodule "OBD.NET"]
+	path = OBD.NET
+	url = https://github.com/XenuIsWatching/OBD.NET.git
