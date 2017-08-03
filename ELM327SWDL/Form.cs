@@ -16,6 +16,8 @@ namespace ELM327SWDL
 {
     public partial class Form : System.Windows.Forms.Form
     {
+        ELM327Serial ELM327Serial = new ELM327Serial();
+
         List<VBF.VBF_File> VBFFileList = new List<VBF.VBF_File>();
 
         public Form()
@@ -55,7 +57,7 @@ namespace ELM327SWDL
                 VBFFileGridView.Rows[row].Cells[2].Value = VBFFile.sw_part_type;
                 VBFFileGridView.Rows[row].Cells[3].Value = VBFFile.ecu_address;
                 VBFFileGridView.Rows[row].Cells[4].Value = VBFFile.frame_format;
-                log.Text = "Opening " + openVBFDialog.FileName + "\r\n";
+                console.Text = "Opening " + openVBFDialog.FileName + "\r\n";
                 VBFFileList.Insert(row, VBFFile);
             }
         }
@@ -126,6 +128,95 @@ namespace ELM327SWDL
             DataGridView dgv = VBFFileGridView;
             dgv.Rows.RemoveAt(dgv.SelectedCells[0].OwningRow.Index);
             VBFFileList.RemoveAt(dgv.SelectedCells[0].OwningRow.Index);
+        }
+
+        private void DataToStore_TextChanged(object sender, EventArgs e)
+        {
+            string item = DataToStore.Text;
+            int n = 0;
+            if (!int.TryParse(item, System.Globalization.NumberStyles.HexNumber, System.Globalization.NumberFormatInfo.CurrentInfo, out n) && item != String.Empty)
+            {
+                DataToStore.Text = item.Remove(item.Length - 1, 1);
+                DataToStore.SelectionStart = DataToStore.Text.Length;
+            }
+        }
+
+        private void StoreData_Click(object sender, EventArgs e)
+        {
+            console.AppendText(">" + ELM327Serial.ATCommand.StoreData.ToString() + DataToStore.Text);
+            console.AppendText(ELM327Serial.sendCommand(ELM327Serial.ATCommand.StoreData, DataToStore.Text));
+        }
+
+        private void ReadData_Click(object sender, EventArgs e)
+        {
+            console.AppendText(">" + ELM327Serial.ATCommand.ReadData.ToString());
+            console.AppendText(ELM327Serial.sendCommand(ELM327Serial.ATCommand.ReadData));
+        }
+
+        private void connect_robot_Click(object sender, EventArgs e)
+        {
+            string connection = connect_robot.Text;
+            switch (connection)
+            {
+                case "CONNECT":
+                    console.AppendText("Connecting to ELM327...\n");
+                    bool success = ELM327Serial.SetComPort(robot_com.Text);
+                    if (!success)
+                    {
+                        string error = "ERROR: Please select COM port to connect to.\n";
+                        AppendErrorText(error);
+                        return;
+                    }
+                    bool connect = ELM327Serial.openPort();
+                    if (connect)
+                    {
+                        connect_robot.Text = "DISCONNECT";
+                        console.AppendText("Connected to Robot!\n");
+                    }
+                    else
+                    {
+                        //send error if connect = false.
+                        string error = "ERROR: Could not connect to Robot.  Please check COM port.\n";
+                        AppendErrorText(error);
+                    }
+                    break;
+                case "DISCONNECT":
+                    string selectedComPort = robot_com.Text;
+                    string connectedComPort = ELM327Serial.cPort;
+                    if (selectedComPort == connectedComPort)
+                    {
+
+                        bool disconnect = ELM327Serial.closePort();
+                        if (disconnect)
+                        {
+                            connect_robot.Text = "CONNECT";
+                            console.AppendText("Disconnected from Robot!\n");
+
+                        }
+                        else
+                        {
+                            string error = "ERROR: Cannot disconnect!\n";
+                            AppendErrorText(error);
+                        }
+
+                    }
+                    else
+                    {
+                        string error = "ERROR: Could not disconnect from Robot on " + connectedComPort + ", Please select correct COM port.\n";
+                        AppendErrorText(error);
+                    }
+                    break;
+
+            }
+        }
+
+        private void AppendErrorText(string error)
+        {
+            int length = console.TextLength;
+            console.AppendText(error);
+            console.SelectionStart = length;
+            console.SelectionLength = error.Length;
+            console.SelectionColor = Color.Red;
         }
     }
 }

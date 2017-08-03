@@ -46,11 +46,15 @@
             this.ecu_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frame_format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.log = new System.Windows.Forms.RichTextBox();
+            this.console = new System.Windows.Forms.RichTextBox();
+            this.StoreData = new System.Windows.Forms.Button();
+            this.ReadData = new System.Windows.Forms.Button();
+            this.DataToStore = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VBFFileGridView)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -89,6 +93,7 @@
             this.connect_robot.TabIndex = 4;
             this.connect_robot.Text = "CONNECT";
             this.connect_robot.UseVisualStyleBackColor = false;
+            this.connect_robot.Click += new System.EventHandler(this.connect_robot_Click);
             // 
             // dvmgr
             // 
@@ -224,38 +229,72 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.DataToStore);
+            this.tabPage2.Controls.Add(this.ReadData);
+            this.tabPage2.Controls.Add(this.StoreData);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(847, 296);
+            this.tabPage2.Size = new System.Drawing.Size(563, 296);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Diag";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // log
+            // console
             // 
-            this.log.Location = new System.Drawing.Point(580, 78);
-            this.log.Name = "log";
-            this.log.Size = new System.Drawing.Size(285, 296);
-            this.log.TabIndex = 13;
-            this.log.Text = "";
+            this.console.Location = new System.Drawing.Point(580, 78);
+            this.console.Name = "console";
+            this.console.Size = new System.Drawing.Size(285, 296);
+            this.console.TabIndex = 13;
+            this.console.Text = "";
             // 
-            // Form1
+            // StoreData
+            // 
+            this.StoreData.Location = new System.Drawing.Point(483, 5);
+            this.StoreData.Name = "StoreData";
+            this.StoreData.Size = new System.Drawing.Size(75, 23);
+            this.StoreData.TabIndex = 0;
+            this.StoreData.Text = "Store Data";
+            this.StoreData.UseVisualStyleBackColor = true;
+            this.StoreData.Click += new System.EventHandler(this.StoreData_Click);
+            // 
+            // ReadData
+            // 
+            this.ReadData.Location = new System.Drawing.Point(483, 35);
+            this.ReadData.Name = "ReadData";
+            this.ReadData.Size = new System.Drawing.Size(75, 23);
+            this.ReadData.TabIndex = 1;
+            this.ReadData.Text = "Read Data";
+            this.ReadData.UseVisualStyleBackColor = true;
+            this.ReadData.Click += new System.EventHandler(this.ReadData_Click);
+            // 
+            // DataToStore
+            // 
+            this.DataToStore.Location = new System.Drawing.Point(449, 8);
+            this.DataToStore.MaxLength = 2;
+            this.DataToStore.Name = "DataToStore";
+            this.DataToStore.Size = new System.Drawing.Size(28, 20);
+            this.DataToStore.TabIndex = 2;
+            this.DataToStore.TextChanged += new System.EventHandler(this.DataToStore_TextChanged);
+            // 
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 389);
-            this.Controls.Add(this.log);
+            this.Controls.Add(this.console);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.groupBox3);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Name = "Form";
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
             this.TabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.VBFFileGridView)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -280,7 +319,10 @@
         private System.Windows.Forms.Button UpButton;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button DownButton;
-        private System.Windows.Forms.RichTextBox log;
+        private System.Windows.Forms.RichTextBox console;
+        private System.Windows.Forms.TextBox DataToStore;
+        private System.Windows.Forms.Button ReadData;
+        private System.Windows.Forms.Button StoreData;
     }
 }
 

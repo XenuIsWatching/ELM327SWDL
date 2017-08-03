@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ELM327Commands.cs" />
     <Compile Include="Form.cs">
       <SubType>Form</SubType>
     </Compile>
