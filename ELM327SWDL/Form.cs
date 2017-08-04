@@ -143,14 +143,12 @@ namespace ELM327SWDL
 
         private void StoreData_Click(object sender, EventArgs e)
         {
-            console.AppendText(">" + ELM327Serial.ATCommand.StoreData.ToString() + DataToStore.Text);
-            console.AppendText(ELM327Serial.sendCommand(ELM327Serial.ATCommand.StoreData, DataToStore.Text));
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.StoreData, DataToStore.Text));
         }
 
         private void ReadData_Click(object sender, EventArgs e)
         {
-            console.AppendText(">" + ELM327Serial.ATCommand.ReadData.ToString());
-            console.AppendText(ELM327Serial.sendCommand(ELM327Serial.ATCommand.ReadData));
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadData));
         }
 
         private void connect_robot_Click(object sender, EventArgs e)
@@ -171,7 +169,8 @@ namespace ELM327SWDL
                     if (connect)
                     {
                         connect_robot.Text = "DISCONNECT";
-                        console.AppendText("Connected to Robot!\n");
+                        //ELM327Serial.Initialize();
+                        console.AppendText("Connected to ELM327!\n");
                     }
                     else
                     {
@@ -217,6 +216,247 @@ namespace ELM327SWDL
             console.SelectionStart = length;
             console.SelectionLength = error.Length;
             console.SelectionColor = Color.Red;
+        }
+
+        private void EnableLineFeeds_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EnableLineFeeds.Checked == true)
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOn));
+            }
+            else
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOff));
+            }
+        }
+
+        private void EchoCommand_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EchoCommand.Checked == true)
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOn));
+            }
+            else
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOff));
+            }
+        }
+
+        private void ShowHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ShowHeader.Checked == true)
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOn));
+            }
+            else
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOff));
+            }
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.ResetDevice));
+        }
+
+        private void EnableSpaces_Click(object sender, EventArgs e)
+        {
+            if (EnableSpaces.Checked == true)
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOn));
+            }
+            else
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOff));
+            }
+        }
+
+        private void ReadVoltage_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadVoltage));
+        }
+
+        private void radioButton12_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AutomaticProtocol_CheckedChanged(object sender, EventArgs e)
+        {
+            if(AutomaticProtocol.Checked == true)
+            {
+                console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto));
+            }
+        }
+
+        private void saeJ1850pwm_Click(object sender, EventArgs e)
+        {
+            if (saeJ1850pwm.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "1"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "1"));
+                }
+            }
+        }
+
+        private void saej1850vpw_Click(object sender, EventArgs e)
+        {
+            if (saej1850vpw.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "2"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "2"));
+                }
+            }
+        }
+
+        private void iso9141_2_Click(object sender, EventArgs e)
+        {
+            if (iso9141_2.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "3"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "3"));
+                }
+            }
+        }
+
+        private void iso142304kwp5baud_Click(object sender, EventArgs e)
+        {
+            if (iso142304kwp5baud.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "4"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "4"));
+                }
+            }
+        }
+
+        private void iso142304kwpfastinit_Click(object sender, EventArgs e)
+        {
+            if (iso142304kwpfastinit.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "5"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "5"));
+                }
+            }
+        }
+
+        private void iso157654can11id500kbaud_Click(object sender, EventArgs e)
+        {
+            if (iso157654can11id500kbaud.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "6"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "6"));
+                }
+            }
+        }
+
+        private void iso157654can29id500kbaud_Click(object sender, EventArgs e)
+        {
+            if (iso157654can29id500kbaud.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "7"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "7"));
+                }
+            }
+        }
+
+        private void iso157654can11id250kbaud_Click(object sender, EventArgs e)
+        {
+            if (iso157654can11id250kbaud.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "8"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "8"));
+                }
+            }
+        }
+
+        private void iso157654can29id250kbaud_Click(object sender, EventArgs e)
+        {
+            if (iso157654can29id250kbaud.Checked == true)
+            {
+                if (AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "9"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "9"));
+                }
+            }
+        }
+
+        private void saej1939can_Click(object sender, EventArgs e)
+        {
+            if (saej1939can.Checked == true)
+            {
+                if(AutoSearchOnFailure.Checked == true)
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "A"));
+                }
+                else
+                {
+                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "A"));
+                }
+            }
+        }
+
+        private void ReadProtocolButton_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadProtocol));
+        }
+
+        private void RecommendedInitialization_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.ResetDevice));
+            EchoCommand.Checked = true;
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOn));
+            EnableLineFeeds.Checked = true;
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOn));
+            ShowHeader.Checked = true;
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOn));
+            EnableSpaces.Checked = true;
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOn));
+            AutomaticProtocol.Checked = true;
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto));
         }
     }
 }
