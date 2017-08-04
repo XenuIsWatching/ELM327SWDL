@@ -132,13 +132,7 @@ namespace ELM327SWDL
 
         private void DataToStore_TextChanged(object sender, EventArgs e)
         {
-            string item = DataToStore.Text;
-            int n = 0;
-            if (!int.TryParse(item, System.Globalization.NumberStyles.HexNumber, System.Globalization.NumberFormatInfo.CurrentInfo, out n) && item != String.Empty)
-            {
-                DataToStore.Text = item.Remove(item.Length - 1, 1);
-                DataToStore.SelectionStart = DataToStore.Text.Length;
-            }
+
         }
 
         private void StoreData_Click(object sender, EventArgs e)
@@ -457,6 +451,52 @@ namespace ELM327SWDL
             console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOn));
             AutomaticProtocol.Checked = true;
             console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto));
+        }
+
+        private void set11bitheader_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.Set11BitHeader, can11header.Text));
+        }
+
+        private void monitortx_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorTx, monitortxheader.Text));
+        }
+
+        private void monitorrx_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorRx, monitorrxheader.Text));
+        }
+
+        private void monitorall_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorAll, monitorrxheader.Text));
+        }
+
+        private void defaultbutton_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.Default));
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void senddata_Click(object sender, EventArgs e)
+        {
+            console.AppendText(ELM327Serial.sendCommand(ATCommand.Default ,byte0.Text.PadLeft(2,'0') ));
+        }
+
+        private void Hexonly_TextChanged(object sender, EventArgs e)
+        {
+            string item = DataToStore.Text;
+            int n = 0;
+            if (!int.TryParse(item, System.Globalization.NumberStyles.HexNumber, System.Globalization.NumberFormatInfo.CurrentInfo, out n) && item != String.Empty)
+            {
+                DataToStore.Text = item.Remove(item.Length - 1, 1);
+                DataToStore.SelectionStart = DataToStore.Text.Length;
+            }
         }
     }
 }

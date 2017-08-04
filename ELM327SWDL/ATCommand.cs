@@ -25,6 +25,11 @@
         public static readonly ATCommand StoreData = new ATCommand("ATSD", "OK");
         public static readonly ATCommand ReadData = new ATCommand("ATRD");
         public static readonly ATCommand ReadProtocol = new ATCommand("ATDP");
+        public static readonly ATCommand Set11BitHeader = new ATCommand("ATSH","OK");
+        public static readonly ATCommand MonitorAll = new ATCommand("ATMA", "OK");
+        public static readonly ATCommand MonitorTx = new ATCommand("ATMT", "OK");
+        public static readonly ATCommand MonitorRx = new ATCommand("ATMR", "OK");
+        public static readonly ATCommand Default = new ATCommand("ATD", "OK");
 
         #endregion
 
