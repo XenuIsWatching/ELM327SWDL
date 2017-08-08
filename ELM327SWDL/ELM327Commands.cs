@@ -48,7 +48,7 @@ namespace ELM327SWDL
             mySerialPort.Handshake = Handshake.RequestToSendXOnXOff;
             mySerialPort.ReadTimeout = 5000;
             mySerialPort.WriteTimeout = 5000;
-
+            mySerialPort.DataReceived += new SerialDataReceivedEventHandler(port_DataRecieved);
             try
             {
                 mySerialPort.Open();
@@ -65,6 +65,11 @@ namespace ELM327SWDL
                 Console.WriteLine("Port Not Opened!!");
                 return false;
             }
+        }
+
+        private void port_DataRecieved(object sender, SerialDataReceivedEventArgs e)
+        {
+            elm327form._elm327form.writeToConsoleBox(mySerialPort.ReadExisting());
         }
 
         public bool testELM327Port()
@@ -116,17 +121,29 @@ namespace ELM327SWDL
         #endregion Connection
 
         #region Command
-        public string sendCommand(ATCommand command, string Data = "")
+        public bool sendCommand(ATCommand command, string Data = "")
         {
             try
             {
-                mySerialPort.WriteLine(command.Command + Data + "\r\n");
-                string output = mySerialPort.ReadExisting();
-                return output;
+                mySerialPort.WriteLine(command.Command + Data + "\r");
+                return true;
             }
             catch
             {
-                return "failed\r\n";
+                return false;
+            }
+        }
+
+        public bool sendCommand(string Data)
+        {
+            try
+            {
+                mySerialPort.WriteLine(Data + "\r");
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         #endregion Command

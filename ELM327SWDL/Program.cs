@@ -18,7 +18,7 @@ namespace ELM327SWDL
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form());
+            Application.Run(new elm327form());
         }
 
     }

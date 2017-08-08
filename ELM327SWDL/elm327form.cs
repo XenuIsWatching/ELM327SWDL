@@ -14,15 +14,22 @@ using System.Text.RegularExpressions;
 
 namespace ELM327SWDL
 {
-    public partial class Form : System.Windows.Forms.Form
+    public partial class elm327form : System.Windows.Forms.Form
     {
         ELM327Serial ELM327Serial = new ELM327Serial();
 
         List<VBF.VBF_File> VBFFileList = new List<VBF.VBF_File>();
 
-        public Form()
+        public elm327form()
         {
             InitializeComponent();
+        }
+        public static elm327form _elm327form;
+
+        public void writeToConsoleBox(string message)
+        {
+            console.AppendText(message);
+            console.ScrollToCaret();
         }
 
         private void elmCom_Enter(object sender, EventArgs e)
@@ -137,12 +144,12 @@ namespace ELM327SWDL
 
         private void StoreData_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.StoreData, DataToStore.Text));
+            ELM327Serial.sendCommand(ATCommand.StoreData, DataToStore.Text);
         }
 
         private void ReadData_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadData));
+            ELM327Serial.sendCommand(ATCommand.ReadData);
         }
 
         private void connect_robot_Click(object sender, EventArgs e)
@@ -216,11 +223,11 @@ namespace ELM327SWDL
         {
             if (EnableLineFeeds.Checked == true)
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOn));
+                ELM327Serial.sendCommand(ATCommand.LinefeedsOn);
             }
             else
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOff));
+                ELM327Serial.sendCommand(ATCommand.LinefeedsOff);
             }
         }
 
@@ -228,11 +235,11 @@ namespace ELM327SWDL
         {
             if (EchoCommand.Checked == true)
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOn));
+                ELM327Serial.sendCommand(ATCommand.EchoOn);
             }
             else
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOff));
+                ELM327Serial.sendCommand(ATCommand.EchoOff);
             }
         }
 
@@ -240,34 +247,34 @@ namespace ELM327SWDL
         {
             if (ShowHeader.Checked == true)
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOn));
+                ELM327Serial.sendCommand(ATCommand.HeadersOn);
             }
             else
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOff));
+                ELM327Serial.sendCommand(ATCommand.HeadersOff);
             }
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.ResetDevice));
+            ELM327Serial.sendCommand(ATCommand.ResetDevice);
         }
 
         private void EnableSpaces_Click(object sender, EventArgs e)
         {
             if (EnableSpaces.Checked == true)
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOn));
+                ELM327Serial.sendCommand(ATCommand.PrintSpacesOn);
             }
             else
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOff));
+                ELM327Serial.sendCommand(ATCommand.PrintSpacesOff);
             }
         }
 
         private void ReadVoltage_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadVoltage));
+            ELM327Serial.sendCommand(ATCommand.ReadVoltage);
         }
 
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
@@ -279,7 +286,7 @@ namespace ELM327SWDL
         {
             if(AutomaticProtocol.Checked == true)
             {
-                console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto));
+                ELM327Serial.sendCommand(ATCommand.SetProtocolAuto);
             }
         }
 
@@ -289,11 +296,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "1"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "1");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "1"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "1");
                 }
             }
         }
@@ -304,11 +311,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "2"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "2");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "2"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "2");
                 }
             }
         }
@@ -319,11 +326,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "3"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "3");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "3"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "3");
                 }
             }
         }
@@ -334,11 +341,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "4"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "4");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "4"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "4");
                 }
             }
         }
@@ -349,11 +356,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "5"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "5");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "5"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "5");
                 }
             }
         }
@@ -364,11 +371,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "6"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "6");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "6"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "6");
                 }
             }
         }
@@ -379,11 +386,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "7"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "7");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "7"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "7");
                 }
             }
         }
@@ -394,11 +401,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "8"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "8");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "8"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "8");
                 }
             }
         }
@@ -409,11 +416,11 @@ namespace ELM327SWDL
             {
                 if (AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "9"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "9");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "9"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "9");
                 }
             }
         }
@@ -424,58 +431,58 @@ namespace ELM327SWDL
             {
                 if(AutoSearchOnFailure.Checked == true)
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "A"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocolAuto, "A");
                 }
                 else
                 {
-                    console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocol, "A"));
+                    ELM327Serial.sendCommand(ATCommand.SetProtocol, "A");
                 }
             }
         }
 
         private void ReadProtocolButton_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.ReadProtocol));
+            ELM327Serial.sendCommand(ATCommand.ReadProtocol);
         }
 
         private void RecommendedInitialization_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.ResetDevice));
+            ELM327Serial.sendCommand(ATCommand.ResetDevice);
             EchoCommand.Checked = true;
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.EchoOn));
+            ELM327Serial.sendCommand(ATCommand.EchoOn);
             EnableLineFeeds.Checked = true;
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.LinefeedsOn));
+            ELM327Serial.sendCommand(ATCommand.LinefeedsOn);
             ShowHeader.Checked = true;
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.HeadersOn));
+            ELM327Serial.sendCommand(ATCommand.HeadersOn);
             EnableSpaces.Checked = true;
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.PrintSpacesOn));
+            ELM327Serial.sendCommand(ATCommand.PrintSpacesOn);
             AutomaticProtocol.Checked = true;
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.SetProtocolAuto));
+            ELM327Serial.sendCommand(ATCommand.SetProtocolAuto);
         }
 
         private void set11bitheader_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.Set11BitHeader, can11header.Text));
+            ELM327Serial.sendCommand(ATCommand.Set11BitHeader, can11header.Text);
         }
 
         private void monitortx_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorTx, monitortxheader.Text));
+            ELM327Serial.sendCommand(ATCommand.MonitorTx, monitortxheader.Text);
         }
 
         private void monitorrx_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorRx, monitorrxheader.Text));
+            ELM327Serial.sendCommand(ATCommand.MonitorRx, monitorrxheader.Text);
         }
 
         private void monitorall_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.MonitorAll, monitorrxheader.Text));
+            ELM327Serial.sendCommand(ATCommand.MonitorAll, monitorrxheader.Text);
         }
 
         private void defaultbutton_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.Default));
+            ELM327Serial.sendCommand(ATCommand.Default);
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -485,17 +492,19 @@ namespace ELM327SWDL
 
         private void senddata_Click(object sender, EventArgs e)
         {
-            console.AppendText(ELM327Serial.sendCommand(ATCommand.Default ,byte0.Text.PadLeft(2,'0') ));
+            ELM327Serial.sendCommand(byte0.Text.PadLeft(2,'0'));
+            //TODO: finish writing
         }
 
         private void Hexonly_TextChanged(object sender, EventArgs e)
         {
-            string item = DataToStore.Text;
+            TextBox control = sender as TextBox;
+            string item = control.Text;
             int n = 0;
             if (!int.TryParse(item, System.Globalization.NumberStyles.HexNumber, System.Globalization.NumberFormatInfo.CurrentInfo, out n) && item != String.Empty)
             {
-                DataToStore.Text = item.Remove(item.Length - 1, 1);
-                DataToStore.SelectionStart = DataToStore.Text.Length;
+                control.Text = item.Remove(item.Length - 1, 1);
+                control.SelectionStart = control.Text.Length;
             }
         }
     }
