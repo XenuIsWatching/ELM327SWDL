@@ -24,7 +24,6 @@ namespace ELM327SWDL
         {
             InitializeComponent();
         }
-        public static elm327form _elm327form;
 
         public void writeToConsoleBox(string message)
         {
@@ -166,7 +165,7 @@ namespace ELM327SWDL
                         AppendErrorText(error);
                         return;
                     }
-                    bool connect = ELM327Serial.openPort();
+                    bool connect = ELM327Serial.openPort(this);
                     if (connect)
                     {
                         connect_robot.Text = "DISCONNECT";

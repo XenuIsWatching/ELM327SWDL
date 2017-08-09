@@ -7,14 +7,15 @@ namespace ELM327SWDL
 {
     public class ELM327Serial
     {
-
         #region Data
-        public SerialPort mySerialPort = new SerialPort();
+        public SerialPort elmSerialPort = new SerialPort();
         public string cPort { get; protected set; } = "COM41";
         public int bRate { get; protected set; } = 38400;
         public int dBits { get; protected set; } = 8;
         public Parity Parity { get; protected set; } = Parity.None;
         public StopBits StopBits { get; protected set; } = StopBits.One;
+        public elm327form FormReference;
+
         #endregion Data
 
         #region Constuctor
@@ -38,20 +39,22 @@ namespace ELM327SWDL
         #endregion Constructors
 
         #region Connection
-        public bool openPort()
+        public bool openPort(elm327form formReference)
         {
-            mySerialPort.PortName = cPort;
-            mySerialPort.BaudRate = bRate;
-            mySerialPort.DataBits = dBits;
-            mySerialPort.Parity = Parity;
-            mySerialPort.StopBits = StopBits;
-            mySerialPort.Handshake = Handshake.RequestToSendXOnXOff;
-            mySerialPort.ReadTimeout = 5000;
-            mySerialPort.WriteTimeout = 5000;
-            mySerialPort.DataReceived += new SerialDataReceivedEventHandler(port_DataRecieved);
+            elmSerialPort.PortName = cPort;
+            elmSerialPort.BaudRate = bRate;
+            elmSerialPort.DataBits = dBits;
+            elmSerialPort.Parity = Parity;
+            elmSerialPort.StopBits = StopBits;
+            elmSerialPort.Handshake = Handshake.RequestToSendXOnXOff;
+            elmSerialPort.ReadTimeout = 5000;
+            elmSerialPort.WriteTimeout = 5000;
+            elmSerialPort.DataReceived += new SerialDataReceivedEventHandler(port_DataRecieved);
+            FormReference = formReference;
+
             try
             {
-                mySerialPort.Open();
+                elmSerialPort.Open();
                 bool success = testELM327Port();
                 if (!success)
                 {
@@ -69,10 +72,21 @@ namespace ELM327SWDL
 
         private void port_DataRecieved(object sender, SerialDataReceivedEventArgs e)
         {
-            elm327form._elm327form.writeToConsoleBox(mySerialPort.ReadExisting());
+            string data = elmSerialPort.ReadExisting();
+
+            Action toBeRunOnGuiThread = () => FormReference.writeToConsoleBox(data);
+
+            // to guard yourself from all evil
+            // you could check to see if it is needed to
+            if (FormReference.InvokeRequired)
+                // marshal the call to the action all the way to the GUI thread
+                FormReference.Invoke(toBeRunOnGuiThread);
+            else
+                // or, if we ARE on the GUI thread already, just call it from this thread
+                toBeRunOnGuiThread();
         }
 
-        public bool testELM327Port()
+        private bool testELM327Port()
         {
             int timeout = 100;
             try
@@ -84,7 +98,7 @@ namespace ELM327SWDL
                 {
                     while (timeout > 0 && !response.ToString().Contains(ATCommand.PrintVersion.ExpectedResult))
                     {
-                        x = mySerialPort.ReadExisting();
+                        x = elmSerialPort.ReadExisting();
                         response = response.Append(x);
                         timeout--;
                     }
@@ -110,7 +124,8 @@ namespace ELM327SWDL
         {
             try
             {
-                mySerialPort.Close();
+                elmSerialPort.Close();
+                elmSerialPort.DataReceived -= new SerialDataReceivedEventHandler(port_DataRecieved);
                 return true;
             }
             catch
@@ -125,7 +140,7 @@ namespace ELM327SWDL
         {
             try
             {
-                mySerialPort.WriteLine(command.Command + Data + "\r");
+                elmSerialPort.WriteLine(command.Command + Data + "\r");
                 return true;
             }
             catch
@@ -138,7 +153,7 @@ namespace ELM327SWDL
         {
             try
             {
-                mySerialPort.WriteLine(Data + "\r");
+                elmSerialPort.WriteLine(Data + "\r");
                 return true;
             }
             catch
@@ -151,13 +166,13 @@ namespace ELM327SWDL
         #region SetFunctions
         public bool SetComPort(string comPort)
         {
-            if (mySerialPort.IsOpen)
+            if (elmSerialPort.IsOpen)
             {
-                mySerialPort.Close();
+                elmSerialPort.Close();
             }
             if (comPort != "")
             {
-                mySerialPort.PortName = comPort;
+                elmSerialPort.PortName = comPort;
                 cPort = comPort;
                 return true;
             }
@@ -184,7 +199,7 @@ namespace ELM327SWDL
             {
                 while (!response.ToString().Contains("OK"))
                 {
-                    x = mySerialPort.ReadExisting();
+                    x = elmSerialPort.ReadExisting();
                     response = response.Append(x);
                 }
                 return true;

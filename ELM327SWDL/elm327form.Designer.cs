@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.robot_com = new System.Windows.Forms.ComboBox();
             this.connect_robot = new System.Windows.Forms.Button();
@@ -100,6 +101,7 @@
             this.ecu_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frame_format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.console = new System.Windows.Forms.RichTextBox();
+            this.elmSerialPort = new System.IO.Ports.SerialPort(this.components);
             this.groupBox3.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.ELM327.SuspendLayout();
@@ -991,6 +993,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.IO.Ports.SerialPort elmSerialPort;
     }
 }
 
