@@ -476,7 +476,7 @@ namespace ELM327SWDL
 
         private void monitorall_Click(object sender, EventArgs e)
         {
-            ELM327Serial.sendCommand(ATCommand.MonitorAll, monitorrxheader.Text);
+            ELM327Serial.sendCommand(ATCommand.MonitorAll);
         }
 
         private void defaultbutton_Click(object sender, EventArgs e)
@@ -491,8 +491,7 @@ namespace ELM327SWDL
 
         private void senddata_Click(object sender, EventArgs e)
         {
-            ELM327Serial.sendCommand(byte0.Text.PadLeft(2,'0'));
-            //TODO: finish writing
+            ELM327Serial.sendCommand(byte0.Text.PadLeft(2,'0') + byte1.Text.PadLeft(2, '0') + byte2.Text.PadLeft(2, '0') + byte3.Text.PadLeft(2, '0') + byte4.Text.PadLeft(2, '0') + byte5.Text.PadLeft(2, '0') + byte6.Text.PadLeft(2, '0') + byte7.Text.PadLeft(2, '0'));
         }
 
         private void Hexonly_TextChanged(object sender, EventArgs e)
